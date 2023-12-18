@@ -16,8 +16,17 @@ import (
 func (s *Server) ReturnMessages(c *gin.Context) {
 	utils.InitFile("trans-data/mounted-files/messages.txt")
 	// read messages.txt
-	content, _ := os.ReadFile("trans-data/mounted-files/messages.txt")
-	c.JSON(200, gin.H{"messages": string(content)})
+	// content, _ := os.ReadFile("trans-data/mounted-files/messages.txt")
+	// c.JSON(200, gin.H{"messages": string(content)})
+	c.File("trans-data/mounted-files/messages.txt")
+}
+
+func (s *Server) ReturnMountFileList(c *gin.Context) {
+	json, err := json.Marshal(s.MList.Files)
+	if err != nil {
+		log.Println("json转换失败，错误信息：", err)
+	}
+	c.JSON(200, gin.H{"files": string(json)})
 }
 
 /*
@@ -91,14 +100,6 @@ func (s *Server) MountFile(file nFile) {
 	s.GinEngine.GET(fmt.Sprintf("/files/%s", file.FilePath), func(c *gin.Context) {
 		c.File(fmt.Sprintf("trans-data/mounted-files/%s", file.FileName))
 	})
-}
-
-func (s *Server) ReturnMountFileList(c *gin.Context) {
-	json, err := json.Marshal(s.MList.Files)
-	if err != nil {
-		log.Println("json转换失败，错误信息：", err)
-	}
-	c.JSON(200, gin.H{"files": string(json)})
 }
 
 func (s *Server) UploadFiles(c *gin.Context) {
