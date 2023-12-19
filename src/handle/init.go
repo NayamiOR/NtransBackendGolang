@@ -6,10 +6,11 @@ func (s *Server) InitHandler() {
 	r.GET("/test", Test)
 	r.GET("/printroutes", s.printRoutes)
 	r.GET("/files", s.ShowMountedFiles)
+	r.GET("/filesReceived", s.ShowReceivedFiles)
 	r.GET("/messages", ReturnMessages)
+	r.GET("/messagesreceived", ReturnMessagesReceived)
 	r.POST("/uploadfiles", s.UploadFiles)
-	r.POST("/receivefiles", ReceiveFiles)
+	r.POST("/receivefiles", s.ReceiveFiles)
 	r.POST("/uploadmessage", UploadMessage)
 	r.POST("/receivemessage", ReceiveMessage)
-	r.GET("/messagesreceived", ReturnMessagesReceived)
 }

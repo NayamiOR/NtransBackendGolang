@@ -12,13 +12,14 @@ type nFile struct {
 	FilePath string `json:"path"` //文件路由地址
 }
 
-type MountList struct {
+type FileList struct {
 	Files []nFile `json:"files"` //文件列表
 }
 
 type Server struct {
 	GinEngine *gin.Engine
-	MList     *MountList
+	MList     *FileList
+	RList     *FileList
 }
 
 func Test(c *gin.Context) {
@@ -27,8 +28,9 @@ func Test(c *gin.Context) {
 
 func CreateServer() *Server {
 	GinServer := gin.Default()
-	mList := &MountList{}
-	return &Server{GinServer, mList}
+	mList := &FileList{}
+	rList := &FileList{}
+	return &Server{GinServer, mList, rList}
 }
 
 func (s *Server) StartServer() {

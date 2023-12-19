@@ -15,8 +15,10 @@ func main() {
 	utils.CreateDataDir()
 
 	server := handle.CreateServer()
-	t := template.Must(template.New("files").ParseFiles("templates/files.tmpl"))
+	t := template.Must(template.New("files").ParseFiles("templates/files.tmpl", "templates/filesReceived.tmpl"))
+
 	server.GinEngine.SetHTMLTemplate(t)
+
 	fs := http.FileServer(http.Dir("dist"))
 	http.Handle("/", fs)
 

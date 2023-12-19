@@ -1,7 +1,6 @@
 package handle
 
 import (
-	"encoding/json"
 	"fmt"
 	"html"
 	"log"
@@ -21,12 +20,12 @@ func ReturnMessages(c *gin.Context) {
 	c.File("trans-data/mounted-files/messages.txt")
 }
 
-func (s *Server) ReturnMountFileList(c *gin.Context) {
-	json, err := json.Marshal(s.MList.Files)
-	if err != nil {
-		log.Println("json转换失败，错误信息：", err)
+func (s *Server) ShowReceivedFiles(c *gin.Context) {
+	fileNames := make([]string, 0)
+	for _, file := range s.RList.Files {
+		fileNames = append(fileNames, file.FileName)
 	}
-	c.JSON(200, gin.H{"files": string(json)})
+	c.HTML(200, "filesReceived.tmpl", fileNames)
 }
 
 func (s *Server) ShowMountedFiles(c *gin.Context) {
@@ -46,7 +45,7 @@ func (s *Server) ShowMountedFiles(c *gin.Context) {
 
 - </form>
 */
-func ReceiveFiles(c *gin.Context) {
+func (s *Server) ReceiveFiles(c *gin.Context) {
 	form, err := c.MultipartForm()
 	if err != nil {
 		log.Println("文件获取失败,错误信息：", err)
@@ -66,6 +65,8 @@ func ReceiveFiles(c *gin.Context) {
 		fileContent.Read(bytes)
 
 		utils.SaveFile(bytes, fileName)
+		file := CreateNFile(fileName, fileName)
+		s.RList.Files = append(s.RList.Files, file)
 	}
 
 	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
