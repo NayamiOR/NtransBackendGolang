@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (s *Server) ReturnMessages(c *gin.Context) {
+func ReturnMessages(c *gin.Context) {
 	utils.InitFile("trans-data/mounted-files/messages.txt")
 	// read messages.txt
 	// content, _ := os.ReadFile("trans-data/mounted-files/messages.txt")
@@ -27,6 +27,14 @@ func (s *Server) ReturnMountFileList(c *gin.Context) {
 		log.Println("json转换失败，错误信息：", err)
 	}
 	c.JSON(200, gin.H{"files": string(json)})
+}
+
+func (s *Server) ShowMountedFiles(c *gin.Context) {
+	fileNames := make([]string, 0)
+	for _, file := range s.MList.Files {
+		fileNames = append(fileNames, file.FileName)
+	}
+	c.HTML(200, "files.tmpl", fileNames)
 }
 
 /*
@@ -146,4 +154,8 @@ func UploadMessage(c *gin.Context) {
 	messageFile.WriteString(timestamp + ":\n")
 	messageFile.WriteString(message + "\n")
 	c.JSON(200, gin.H{"message": "success"})
+}
+func ReturnMessagesReceived(c *gin.Context) {
+	utils.InitFile("trans-data/messages.txt")
+	c.File("trans-data/messages.txt")
 }

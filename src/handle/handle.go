@@ -27,7 +27,6 @@ func Test(c *gin.Context) {
 
 func CreateServer() *Server {
 	GinServer := gin.Default()
-	// GinServer.Use(cors.New(cors.Config{))
 	mList := &MountList{}
 	return &Server{GinServer, mList}
 }
