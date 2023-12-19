@@ -15,7 +15,8 @@ func main() {
 	utils.CreateDataDir()
 
 	server := handle.CreateServer()
-	t := template.Must(template.New("files").ParseFiles("templates/files.tmpl", "templates/filesReceived.tmpl"))
+	// t := template.Must(template.New("files").ParseFiles("templates/files.tmpl", "templates/filesReceived.tmpl"))
+	t := template.Must(template.ParseGlob("templates/*.tmpl"))
 
 	server.GinEngine.SetHTMLTemplate(t)
 
