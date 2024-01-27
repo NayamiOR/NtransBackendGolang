@@ -13,7 +13,6 @@ import (
 )
 
 func ReturnMessages(c *gin.Context) {
-	utils.InitFile("trans-data/mounted-files/messages.txt")
 	// read messages.txt
 	// content, _ := os.ReadFile("trans-data/mounted-files/messages.txt")
 	// c.JSON(200, gin.H{"messages": string(content)})
@@ -157,6 +156,5 @@ func UploadMessage(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "success"})
 }
 func ReturnMessagesReceived(c *gin.Context) {
-	utils.InitFile("trans-data/messages.txt")
 	c.File("trans-data/messages.txt")
 }
