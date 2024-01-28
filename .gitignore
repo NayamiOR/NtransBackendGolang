@@ -2,3 +2,5 @@
 trans-data
 dist
 main.exe
+/*.dll
+/*.exe

@@ -9,6 +9,7 @@ import (
 	"trans-backend-golang/src/utils"
 )
 
+//export main
 func main() {
 	utils.InitDir("trans-data")
 	config.InitConfig()
